@@ -5,6 +5,7 @@ namespace SpaceInvaders.Controllers
 {
     public class GameStateController : MonoBehaviour
     {
+        public int PlayerScore => _playerScore;
         [SerializeField] private ScoreView _scoreView;
         private int _playerScore;
 
