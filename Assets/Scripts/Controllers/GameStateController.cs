@@ -1,4 +1,5 @@
 using System.Collections;
+using SpaceInvaders.GameInput;
 using SpaceInvaders.Views;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace SpaceInvaders.Controllers
 {
     public class GameStateController : MonoBehaviour
     {
+        [SerializeField] private UserInput _userInput;
         [SerializeField] private ScoreView _scoreView;
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
@@ -25,29 +27,35 @@ namespace SpaceInvaders.Controllers
             _gameIsActive = false;
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            ChangeGameState();
-            UpdateScore();
+            _userInput.OnFirePressed += OnFireActionHandler;
+            _userInput.OnLeftPressed += OnLeftActionHandler;
+            _userInput.OnRightPressed += OnRightActionHandler;
         }
 
-        private void UpdateScore()
+        private void OnFireActionHandler()
         {
-            if(Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                _playerScore++;
-                _scoreView.OnScoreTextUpdate(_playerScore); 
-            }
-            else if(Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                _playerScore--;
-                _scoreView.OnScoreTextUpdate(_playerScore); 
-            }
+            ChangeGameState();
         }
+
+        private void OnLeftActionHandler()
+        {
+            Debug.Log("Left");
+        }
+
+        private void OnRightActionHandler()
+        {
+            Debug.Log("Right");
+        }
+
+        private void UpdateScoreText()
+        {
+            _scoreView.OnScoreTextUpdate(_playerScore); 
+        }
+
         private void ChangeGameState()
         {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
                 if(!_gameIsActive)
                 {
                     StartGame();
@@ -58,8 +66,6 @@ namespace SpaceInvaders.Controllers
                     EndGame();
                     _gameIsActive = false;
                 }
-
-            }
         }
 
         private void StartGame()
@@ -84,7 +90,7 @@ namespace SpaceInvaders.Controllers
             _gameEndView.gameObject.SetActive(false);
             _startView.gameObject.SetActive(true);
             _playerScore = 0;
-            UpdateScore();
+            UpdateScoreText();
         }
 
         private void CacheHighScore(int highScore)
