@@ -6,9 +6,6 @@ namespace SpaceInvaders.Controllers
 {
     public class GameStateController : MonoBehaviour
     {
-        public int PlayerScore => _playerScore;
-        public int PlayerLives => _playerLives;
-        public int HighScore => _highScore;
         [SerializeField] private ScoreView _scoreView;
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
@@ -31,8 +28,22 @@ namespace SpaceInvaders.Controllers
         private void Update()
         {
             ChangeGameState();
+            UpdateScore();
         }
 
+        private void UpdateScore()
+        {
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                _playerScore++;
+                _scoreView.OnScoreTextUpdate(_playerScore); 
+            }
+            else if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                _playerScore--;
+                _scoreView.OnScoreTextUpdate(_playerScore); 
+            }
+        }
         private void ChangeGameState()
         {
             if(Input.GetKeyDown(KeyCode.Space))
@@ -56,6 +67,7 @@ namespace SpaceInvaders.Controllers
             
                 _startView.gameObject.SetActive(false);
                 _gameView.gameObject.SetActive(true);
+                _gameView.UpdateLivesText(_playerLives);
         
         }
 
@@ -72,6 +84,7 @@ namespace SpaceInvaders.Controllers
             _gameEndView.gameObject.SetActive(false);
             _startView.gameObject.SetActive(true);
             _playerScore = 0;
+            UpdateScore();
         }
 
         private void CacheHighScore(int highScore)
@@ -79,6 +92,7 @@ namespace SpaceInvaders.Controllers
             if (highScore <= _playerScore)
             {
                 _highScore = _playerScore;
+                _scoreView.OnHighScoreTextUpdate(_highScore);
             }
             
         }
