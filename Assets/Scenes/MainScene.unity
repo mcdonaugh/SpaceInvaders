@@ -313,6 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStateController: {fileID: 1541256916}
   _playerScore: {fileID: 901937397}
+  _highScore: {fileID: 1357703490}
 --- !u!1 &112383592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,10 +2161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scoreView: {fileID: 47391204}
-  _startView: {fileID: 0}
+  _startView: {fileID: 355311049}
   _gameView: {fileID: 1611620693}
   _gameEndView: {fileID: 608879630}
   _playerLives: 3
+  _playerScore: 0
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2282,6 +2284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameStateController: {fileID: 1541256916}
+  _playerLives: {fileID: 342062487}
 --- !u!1 &1703433175
 GameObject:
   m_ObjectHideFlags: 0
