@@ -8,6 +8,7 @@ namespace SpaceInvaders.Controllers
     {
         public int PlayerScore => _playerScore;
         public int PlayerLives => _playerLives;
+        public int HighScore => _highScore;
         [SerializeField] private ScoreView _scoreView;
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
@@ -61,7 +62,7 @@ namespace SpaceInvaders.Controllers
         private void EndGame()
         {
             _gameEndView.gameObject.SetActive(true);
-            _highScore = _playerScore;
+            CacheHighScore(_highScore);
             StartCoroutine(RestartGame());
         }
 
@@ -71,6 +72,15 @@ namespace SpaceInvaders.Controllers
             _gameEndView.gameObject.SetActive(false);
             _startView.gameObject.SetActive(true);
             _playerScore = 0;
+        }
+
+        private void CacheHighScore(int highScore)
+        {
+            if (highScore <= _playerScore)
+            {
+                _highScore = _playerScore;
+            }
+            
         }
         
     }
