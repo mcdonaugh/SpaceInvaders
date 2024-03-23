@@ -6,24 +6,40 @@ namespace SpaceInvaders.Controllers
     public class GameStateController : MonoBehaviour
     {
         public int PlayerScore => _playerScore;
+        public int PlayerLives => _playerLives;
         [SerializeField] private ScoreView _scoreView;
+        [SerializeField] private GameView _gameView;
         private int _playerScore;
+        private int _playerLives;
 
         private void Awake()
         {
-            _playerScore = 0;
-        }
-        private void Update()
-        {
-            IncreaseScore();
+            _gameView.gameObject.SetActive(false);
         }
 
-        private void IncreaseScore()
+        private void Update()
+        {
+            StartGame();
+            ChangeScore();
+        }
+
+        private void ChangeScore()
+        {
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                _playerScore++;
+            }
+            if(Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                _playerScore--;
+            }
+        }
+
+        private void StartGame()
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                _playerScore++;
-                Debug.Log($"{_playerScore}");
+                _gameView.gameObject.SetActive(true);
             }
         }
         
