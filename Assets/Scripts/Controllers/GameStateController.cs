@@ -70,13 +70,10 @@ namespace SpaceInvaders.Controllers
 
         private void StartGame()
         {
-            
                 _startView.gameObject.SetActive(false);
                 _gameView.gameObject.SetActive(true);
                 _invadersController.gameObject.SetActive(true);
                 _gameView.UpdateLivesText(_playerLives);
-                
-        
         }
 
         private void EndGame()
