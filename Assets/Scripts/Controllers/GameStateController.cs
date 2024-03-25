@@ -1,7 +1,6 @@
 using System.Collections;
 using SpaceInvaders.GameInput;
 using SpaceInvaders.Views;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace SpaceInvaders.Controllers
@@ -13,19 +12,17 @@ namespace SpaceInvaders.Controllers
         [SerializeField] private StartView _startView;
         [SerializeField] private GameView _gameView;
         [SerializeField] private GameEndView _gameEndView;
-        [SerializeField] private InvadersController _invadersControllers;
+        [SerializeField] private InvadersController _invadersController;
         [SerializeField] private int _playerLives;
         [SerializeField] private int _playerScore;
         private int _highScore;
         private bool _gameIsActive;
 
-        
-
         private void Awake()
         {
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
-            _invadersControllers.gameObject.SetActive(false);
+            _invadersController.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(false);
             _gameIsActive = false;
         }
@@ -76,8 +73,9 @@ namespace SpaceInvaders.Controllers
             
                 _startView.gameObject.SetActive(false);
                 _gameView.gameObject.SetActive(true);
+                _invadersController.gameObject.SetActive(true);
                 _gameView.UpdateLivesText(_playerLives);
-                _invadersControllers.gameObject.SetActive(true);
+                
         
         }
 
@@ -93,7 +91,7 @@ namespace SpaceInvaders.Controllers
             yield return new WaitForSeconds(3);
             _gameEndView.gameObject.SetActive(false);
             _startView.gameObject.SetActive(true);
-            _invadersControllers.gameObject.SetActive(false);
+            _invadersController.gameObject.SetActive(false);
             _playerScore = 0;
             UpdateScoreText();
         }
