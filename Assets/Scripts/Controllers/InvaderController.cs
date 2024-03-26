@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InvaderController : MonoBehaviour
+namespace SpaceInvaders.Controllers
 {
-    // Start is called before the first frame update
-    void Start()
+    public class InvaderController : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
