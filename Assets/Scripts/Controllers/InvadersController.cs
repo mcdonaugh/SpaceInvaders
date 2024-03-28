@@ -1,70 +1,79 @@
 using System.Collections;
-using Unity.Mathematics;
+using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace SpaceInvaders.Controllers
 {
     public class InvadersController : MonoBehaviour
     {
-        [SerializeField] private int _maxRows;
-        [SerializeField] private int _maxCols;
-        [SerializeField] private GameObject[] _invaderRowsArray;
-        [SerializeField] private float _rowSpacing;
-        [SerializeField] private float _colSpacing;
-        [SerializeField] private float _leftInvaderBounds;
-        [SerializeField] private float _rightInvaderBounds;
-        private GameObject[] _invaderControllersRemaining;
-        private int _invaderTypeIndex;
-        private GameObject[] _rowArray;
+        [SerializeField] private int _gridRows;
+        [SerializeField] private int _gridCols;
+        [SerializeField] private float _gridSpacing;
+        [SerializeField] private GameObject[] _invaderTypeArray;
+        private GameObject[] _invadersArray;
+        private GameObject[] _invaderRowArray;
+        [SerializeField] private int _invadersRemaining;
+        private int invaderIndex;
+
+        private void Awake()
+        {
+            _invadersArray = new GameObject[_gridRows * _gridCols];
+            _invaderRowArray = new GameObject[_gridRows];
+        }
 
         private void OnEnable()
         {
-            StartCoroutine(SpawnInvaders());
+            StartCoroutine(CreateGrid(_gridRows,_gridCols));
         }
 
-        private IEnumerator SpawnInvaders()
+        private IEnumerator CreateGrid(int rows, int columns)
         {
-            _rowArray = new GameObject[_maxRows];
-            _invaderControllersRemaining = new GameObject[_maxRows * _maxCols];
-            
-            if (_invaderTypeIndex < _maxRows)
+            if (invaderIndex < rows)
             {
-                for (int row = 0; row < _maxRows; row++)
+                for (int row = 0; row < rows; row++)
                 {
-                GameObject newRow = new GameObject($"InvaderRow{row}");
-                newRow.transform.SetParent(transform);
-                newRow.transform.position = transform.position + new Vector3(0f,_rowSpacing * row,0f);                
-
-                    for (int col = 0; col < _maxCols; col++)
-                    {
-                        yield return new WaitForSeconds(.02f);
-                        GameObject newInvader = Instantiate(_invaderRowsArray[_invaderTypeIndex],transform.position,quaternion.identity, transform.parent);
-                        newInvader.transform.SetParent(newRow.transform);
-                        newInvader.transform.position = newRow.transform.position + new Vector3(_colSpacing * col, 0f, 0f);
-            
-                        _invaderControllersRemaining[col] = newInvader;
-                    }
+                    GameObject newRow = new GameObject ($"Invader Row {row}");
+                    _invaderRowArray[row] = newRow;
                 
-                _rowArray[row] = newRow;
-                _invaderTypeIndex++;
+                    for (int col = 0; col < columns; col++)
+                    {
+                        yield return new WaitForSeconds(.025f);
+                        Vector3 spawnPosition = new Vector3(transform.position.x + _gridSpacing * col, transform.position.y + _gridSpacing * row, transform.position.z);
+                        SpawnInvader(spawnPosition, invaderIndex, newRow.transform);
+                    }
+                    
+                    invaderIndex++;
                 }   
             }
+            StartCoroutine(StartMoveInterval());
+        }
 
-            Debug.Log("Number of spawned invaders: " + _invaderControllersRemaining.Length);
+        private void SpawnInvader(Vector3 position, int typeIndex, Transform parent)
+        {   
+            GameObject newInvader = Instantiate(_invaderTypeArray[typeIndex], position, Quaternion.identity);
+            newInvader.transform.SetParent(parent);
+            _invadersRemaining++;
+        }
 
-            float _currentSpeed = 60/_invaderControllersRemaining.Length;
-            
-            while(true)
+        private IEnumerator StartMoveInterval()
+        {
+            float moveInterval = 60/_invadersRemaining;
+
+            while (true)
             {
-                yield return new WaitForSeconds(_currentSpeed);
-                Debug.Log("Tick"); 
+                yield return new WaitForSeconds(moveInterval);
 
-                foreach (var row in _rowArray)
+                foreach (var row in _invaderRowArray)
                 {
-                    yield return new WaitForSeconds(.1f);
-                    
-                }    
-            } 
+                    Move(row);
+                } 
+            }  
+        }
+
+        private void Move(GameObject objectToMove)
+        {
+            objectToMove.transform.position += new Vector3 (.1f,0f,0f);
         }
     }
 }

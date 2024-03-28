@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -767,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7774b058e565741eebf2d6bb11b80ca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameStateController: {fileID: 0}
+  _gameStateController: {fileID: 1541256916}
 --- !u!1 &387721600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1927,18 +1927,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed12f98866ca45428996122a8813ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxRows: 5
-  _maxCols: 11
-  _invaderRowsArray:
+  _gridSpacing: 0.3
+  _invaderTypeArray:
   - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
   - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  _rowSpacing: 0.3
-  _colSpacing: 0.3
-  _leftInvaderBounds: 2
-  _rightInvaderBounds: -2
+  - {fileID: 5226038444042614369, guid: 89ec2bcb60b04401ea7eb669bea9fb6f, type: 3}
+  - {fileID: 5226038444042614369, guid: 89ec2bcb60b04401ea7eb669bea9fb6f, type: 3}
+  - {fileID: 5226038444042614369, guid: 797c98cc385c3497ab3351f256a20b92, type: 3}
 --- !u!4 &1237189705
 Transform:
   m_ObjectHideFlags: 0
@@ -2223,7 +2218,7 @@ MonoBehaviour:
   _gameEndView: {fileID: 608879630}
   _invadersController: {fileID: 1237189704}
   _playerLives: 3
-  _playerScore: 0
+  _playerScore: 2000
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0

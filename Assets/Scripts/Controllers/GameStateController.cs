@@ -100,7 +100,7 @@ namespace SpaceInvaders.Controllers
                 _highScore = _playerScore;
                 _scoreView.OnHighScoreTextUpdate(_highScore);
             }
-            
+  
         }
         
     }
