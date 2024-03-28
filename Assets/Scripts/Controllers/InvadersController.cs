@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace SpaceInvaders.Controllers
@@ -40,20 +38,22 @@ namespace SpaceInvaders.Controllers
                     {
                         yield return new WaitForSeconds(.025f);
                         Vector3 spawnPosition = new Vector3(transform.position.x + _gridSpacing * col, transform.position.y + _gridSpacing * row, transform.position.z);
-                        SpawnInvader(spawnPosition, invaderIndex, newRow.transform);
+                        GameObject newInvader = SpawnInvader(spawnPosition, invaderIndex, newRow.transform);
+                        _invadersArray[col] = newInvader;
                     }
                     
                     invaderIndex++;
-                }   
+                }
             }
             StartCoroutine(StartMoveInterval());
         }
 
-        private void SpawnInvader(Vector3 position, int typeIndex, Transform parent)
+        private GameObject SpawnInvader(Vector3 position, int typeIndex, Transform parent)
         {   
             GameObject newInvader = Instantiate(_invaderTypeArray[typeIndex], position, Quaternion.identity);
             newInvader.transform.SetParent(parent);
             _invadersRemaining++;
+            return newInvader;
         }
 
         private IEnumerator StartMoveInterval()

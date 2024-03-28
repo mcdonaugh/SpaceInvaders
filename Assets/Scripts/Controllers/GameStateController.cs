@@ -56,24 +56,24 @@ namespace SpaceInvaders.Controllers
 
         private void ChangeGameState()
         {
-                if(!_gameIsActive)
-                {
-                    StartGame();
-                    _gameIsActive = true;
-                }
-                else if (_gameIsActive)
-                {
-                    EndGame();
-                    _gameIsActive = false;
-                }
+            if(!_gameIsActive)
+            {
+                StartGame();
+                _gameIsActive = true;
+            }
+            else if (_gameIsActive)
+            {
+                EndGame();
+                _gameIsActive = false;
+            }
         }
 
         private void StartGame()
         {
-                _startView.gameObject.SetActive(false);
-                _gameView.gameObject.SetActive(true);
-                _invadersController.gameObject.SetActive(true);
-                _gameView.UpdateLivesText(_playerLives);
+            _startView.gameObject.SetActive(false);
+            _gameView.gameObject.SetActive(true);
+            _invadersController.gameObject.SetActive(true);
+            _gameView.UpdateLivesText(_playerLives);
         }
 
         private void EndGame()
