@@ -1,28 +1,31 @@
 using System.Collections;
 using SpaceInvaders.GameInput;
-using SpaceInvaders.Views;
 using UnityEngine;
+using TMPro;
 
 namespace SpaceInvaders.Controllers
 {
     public class GameStateController : MonoBehaviour
     {
         [SerializeField] private UserInput _userInput;
-        [SerializeField] private ScoreView _scoreView;
-        [SerializeField] private StartView _startView;
-        [SerializeField] private GameView _gameView;
-        [SerializeField] private GameEndView _gameEndView;
-        [SerializeField] private InvadersController _invadersController;
+        [SerializeField] private GameObject _scoreView;
+        [SerializeField] private GameObject _startView;
+        [SerializeField] private GameObject _gameView;
+        [SerializeField] private GameObject _gameEndView;
         [SerializeField] private int _playerLives;
+        [SerializeField] private TMP_Text _playerLivesText;
         [SerializeField] private int _playerScore;
+        [SerializeField] private TMP_Text _playerScoreText;
         private int _highScore;
+        [SerializeField] private TMP_Text _highScoreText;
+
+
         private bool _gameIsActive;
 
         private void Awake()
         {
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
-            _invadersController.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(false);
             _gameIsActive = false;
         }
@@ -51,7 +54,7 @@ namespace SpaceInvaders.Controllers
 
         private void UpdateScoreText()
         {
-            _scoreView.OnScoreTextUpdate(_playerScore); 
+            _playerScoreText.text = $"{_playerScore}";
         }
 
         private void ChangeGameState()
@@ -72,33 +75,45 @@ namespace SpaceInvaders.Controllers
         {
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(true);
-            _invadersController.gameObject.SetActive(true);
-            _gameView.UpdateLivesText(_playerLives);
+            _gameEndView.gameObject.SetActive(false);
+            UpdateLivesText();
+            UpdateScoreText();
         }
 
         private void EndGame()
         {
+            _startView.gameObject.SetActive(false);
+            _gameView.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(true);
-            CacheHighScore(_highScore);
+            UpdateScoreText();
+            CacheHighScore();
             StartCoroutine(RestartGame());
         }
 
         private IEnumerator RestartGame()
         {
             yield return new WaitForSeconds(3);
-            _gameEndView.gameObject.SetActive(false);
             _startView.gameObject.SetActive(true);
-            _invadersController.gameObject.SetActive(false);
+            _gameView.gameObject.SetActive(false);
+            _gameEndView.gameObject.SetActive(false);
             _playerScore = 0;
             UpdateScoreText();
         }
 
-        private void CacheHighScore(int highScore)
+        
+
+        public void UpdateLivesText()
         {
-            if (highScore <= _playerScore)
+            _playerLivesText.text = $"{_playerLives}";
+        }
+
+
+        private void CacheHighScore()
+        {
+            if (_playerScore >= _highScore)
             {
                 _highScore = _playerScore;
-                _scoreView.OnHighScoreTextUpdate(_highScore);
+                _highScoreText.text = $"{_highScore}";
             }
   
         }

@@ -1898,57 +1898,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1237189703
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1237189705}
-  - component: {fileID: 1237189704}
-  m_Layer: 0
-  m_Name: InvadersController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1237189704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237189703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ed12f98866ca45428996122a8813ab7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gridSpacing: 0.3
-  _invaderTypeArray:
-  - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  - {fileID: 5226038444042614369, guid: 9abf9e46408ec49d9a25ea006039d84d, type: 3}
-  - {fileID: 5226038444042614369, guid: 89ec2bcb60b04401ea7eb669bea9fb6f, type: 3}
-  - {fileID: 5226038444042614369, guid: 89ec2bcb60b04401ea7eb669bea9fb6f, type: 3}
-  - {fileID: 5226038444042614369, guid: 797c98cc385c3497ab3351f256a20b92, type: 3}
---- !u!4 &1237189705
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1237189703}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1357703488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2212,13 +2161,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userInput: {fileID: 1855777011}
-  _scoreView: {fileID: 47391204}
-  _startView: {fileID: 355311049}
-  _gameView: {fileID: 1611620693}
-  _gameEndView: {fileID: 608879630}
-  _invadersController: {fileID: 1237189704}
+  _scoreView: {fileID: 47391202}
+  _startView: {fileID: 355311047}
+  _gameView: {fileID: 1611620691}
+  _gameEndView: {fileID: 608879628}
   _playerLives: 3
+  _playerLivesText: {fileID: 342062487}
   _playerScore: 2000
+  _playerScoreText: {fileID: 901937397}
+  _highScoreText: {fileID: 1357703490}
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2645,4 +2596,3 @@ SceneRoots:
   - {fileID: 1567197900}
   - {fileID: 878603570}
   - {fileID: 1855777012}
-  - {fileID: 1237189705}
