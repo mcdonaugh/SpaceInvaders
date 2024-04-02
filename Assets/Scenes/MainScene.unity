@@ -2167,16 +2167,18 @@ MonoBehaviour:
   _gameEndView: {fileID: 608879628}
   _playerLives: 3
   _playerLivesText: {fileID: 342062487}
-  _playerScore: 2000
   _playerScoreText: {fileID: 901937397}
   _highScoreText: {fileID: 1357703490}
+  _playerController: {fileID: 2767997061333688069, guid: b59aeab5da786464aa8e2d1283322598, type: 3}
+  _playerBounds: 2.1
+  _playerSpeed: 10
   _enemyController: {fileID: 9024611346454977442, guid: 4c598882e442e46c689ee20380c74863, type: 3}
+  _enemyBounds: 0.55
   _gridRows: 5
   _gridCols: 11
   _gridOffset: 0.3
-  _enemyBoundOffset: 0.5
   _moveSpeed: 0.075
-  _moveInterval: 0.5
+  _moveInterval: 0.1
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,7 +2470,7 @@ Transform:
   m_GameObject: {fileID: 1855777010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6922506, y: -2.5230536, z: -0.10605848}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -17,12 +17,12 @@ namespace SpaceInvaders.GameInput
                 OnFirePressed?.Invoke();
             }
 
-            if(Input.GetKeyDown(KeyCode.A))
+            if(Input.GetKey(KeyCode.A))
             {
                 OnLeftPressed?.Invoke();
             }
 
-            if(Input.GetKeyDown(KeyCode.D))
+            if(Input.GetKey(KeyCode.D))
             {
                 OnRightPressed?.Invoke();
             }
