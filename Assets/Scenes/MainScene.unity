@@ -2138,6 +2138,10 @@ MonoBehaviour:
   _invaderStartPosition: -3
   _invaderMoveSpeed: 0.065
   _invaderMoveInterval: 0.1
+  _projectile: {fileID: 5798867253859151217, guid: 329bef30139a7443795b3b7dbad9f1d6, type: 3}
+  _projectilePool: []
+  _projectileMaxCount: 8
+  _projectileMaxSpeed: 5
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0

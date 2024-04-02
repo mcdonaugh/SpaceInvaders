@@ -3,6 +3,7 @@ using SpaceInvaders.GameInput;
 using UnityEngine;
 using TMPro;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 
 namespace SpaceInvaders.Controllers
 {
@@ -31,15 +32,17 @@ namespace SpaceInvaders.Controllers
         [SerializeField] private float _invaderMoveInterval = .2f;
         [SerializeField] private GameObject _projectile;
         [SerializeField] private GameObject[] _projectilePool;
-        [SerializeField] private int _maxProjectiles;
+        [SerializeField] private int _projectileMaxCount = 8;
+        [SerializeField] private float _projectileMaxSpeed = 1;
         private GameObject[,] _invaderGridArray;
         private int _playerScore;
         private int _highScore;
         private Vector3 _playerOrigin;
         private Vector3 _invaderSpawnOrigin;
         private GameObject _invaderTopCenter;
-        private float _directionX = 1;
-        private float _directionY = 1;
+        private int _projectileDirectionY = 1;
+        private float _invaderDirectionX = 1;
+        private float _invaderDirectionY = 1;
         private int _currentRowIndex;
         private bool _gameIsActive;
 
@@ -119,14 +122,48 @@ namespace SpaceInvaders.Controllers
 
         private void ProjectilesSpawn()
         {
-            _projectilePool = new GameObject[_maxProjectiles];
+            _projectilePool = new GameObject[_projectileMaxCount];
 
-            for (int i = 0; i < _maxProjectiles; i++)
+            for (int i = 0; i < _projectileMaxCount; i++)
             {
                 GameObject newProjectile = Instantiate(_projectile, transform.position, quaternion.identity);
                 newProjectile.SetActive(false);
                 _projectilePool[i] = newProjectile;
             }
+        }
+
+        private GameObject GetProjectile(Vector3 projectileOrigin)
+        {
+            foreach (var projectile in _projectilePool)
+            {
+                if(!projectile.gameObject.activeInHierarchy)
+                {
+                    projectile.transform.position = projectileOrigin;
+                    projectile.SetActive(true);
+                    StartCoroutine(ProjectileMove(projectile));
+                    return projectile;
+                }
+            }
+            return null; 
+        }
+
+        private IEnumerator ProjectileMove(GameObject projectile)
+        {
+            while(projectile.activeSelf == true)
+            {
+                projectile.transform.position += new Vector3(0,_projectileDirectionY,0) * _projectileMaxSpeed * Time.deltaTime;
+
+                if(projectile.transform.position.y >= 2)
+                {
+                    projectile.SetActive(false);
+                    yield return null;   
+                }
+                else
+                {
+                    yield return null; 
+                }
+                   
+            }               
         }
 
         private void PlayerActivate()
@@ -171,8 +208,8 @@ namespace SpaceInvaders.Controllers
         private void InvaderGridReset()
         { 
             StopAllCoroutines();
-            _directionX = 1;
-            _directionY = 1;
+            _invaderDirectionX = 1;
+            _invaderDirectionY = 1;
             _currentRowIndex = 0;
 
             for (int i = 0; i < _invaderGridRows; i++)
@@ -190,7 +227,7 @@ namespace SpaceInvaders.Controllers
             
             for (int i = 0; i < _invaderGridCols; i++)
             {
-                _invaderGridArray[_currentRowIndex,i].transform.position += new Vector3(_directionX, 0 ,0) * _invaderMoveSpeed;
+                _invaderGridArray[_currentRowIndex,i].transform.position += new Vector3(_invaderDirectionX, 0 ,0) * _invaderMoveSpeed;
             }
 
             _currentRowIndex++;
@@ -203,12 +240,12 @@ namespace SpaceInvaders.Controllers
             if (_invaderTopCenter.transform.position.x > _invaderBounds)
             {
                 InvaderMoveY();
-                _directionX = -1;
+                _invaderDirectionX = -1;
             }    
             else if (_invaderTopCenter.transform.position.x < -_invaderBounds)
             {
                 InvaderMoveY();
-                _directionX = 1;
+                _invaderDirectionX = 1;
             }        
         }
 
@@ -220,7 +257,7 @@ namespace SpaceInvaders.Controllers
             {
                 for (int i = 0; i < _invaderGridCols; i++)
                 {
-                    _invaderGridArray[_currentRowIndex,i].transform.position += new Vector3(0, -_directionY ,0) * _invaderMoveSpeed;
+                    _invaderGridArray[_currentRowIndex,i].transform.position += new Vector3(0, -_invaderDirectionY ,0) * _invaderMoveSpeed;
                 }
 
                 moveDown = false;
@@ -251,7 +288,15 @@ namespace SpaceInvaders.Controllers
 
         private void OnFireActionHandler()
         {
-            ChangeGameState();
+            if(_gameIsActive == false)
+            {
+                ChangeGameState();
+            }
+            else
+            {
+                GetProjectile(_playerController.transform.position);
+            }
+            
         }
 
         private void OnLeftActionHandler()
