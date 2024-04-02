@@ -2,8 +2,6 @@ using System.Collections;
 using SpaceInvaders.GameInput;
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 
 namespace SpaceInvaders.Controllers
 {
@@ -76,6 +74,7 @@ namespace SpaceInvaders.Controllers
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(true);
+            ResetPlayer();
             ResetGrid();
             UpdateScoreText();
             CacheHighScore();
@@ -140,7 +139,7 @@ namespace SpaceInvaders.Controllers
             {
                 for (int j = 0; j < _invaderGridCols; j++)
                 {
-                    GameObject newEnemy = Instantiate(_invaderController, new Vector3(-rowWidth, -rowHeight,0) + new Vector3(j * _invaderGridOffset, i * _invaderGridOffset, 0), Quaternion.identity);
+                    GameObject newEnemy = Instantiate(_invaderController, new Vector3(-rowWidth, -rowHeight, 0) + new Vector3(j * _invaderGridOffset, i * _invaderGridOffset, 0), Quaternion.identity);
                     newEnemy.SetActive(false);
                     _invaderGridArray[i, j] = newEnemy;
                 }
@@ -171,7 +170,7 @@ namespace SpaceInvaders.Controllers
            _playerController.SetActive(true); 
         }
 
-        private void DeActivatePlayer()
+        private void ResetPlayer()
         {
             _playerController.SetActive(false);
             _playerController.transform.position = _playerOrigin; 
@@ -231,10 +230,11 @@ namespace SpaceInvaders.Controllers
 
         private IEnumerator MoveTimer()
         {
-            while(true)
+            while(_gameIsActive)
             {
                 yield return new WaitForSeconds(_invaderMoveInterval);
                 MoveX();
+                Debug.Log("tick");
             }
         }
 
