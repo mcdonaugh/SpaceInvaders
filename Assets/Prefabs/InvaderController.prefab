@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1059863496680527233}
   - component: {fileID: 992047598094272921}
   m_Layer: 0
-  m_Name: EnemyController
+  m_Name: InvaderController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
