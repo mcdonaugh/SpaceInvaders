@@ -25,7 +25,7 @@ namespace SpaceInvaders.Controllers
         [SerializeField] private int _invaderGridCols = 8;
         [SerializeField] private float _invaderGridOffset = .3f;
         [SerializeField] private float _invaderGridSpawnDelay = .025f;
-        [SerializeField] private float _invaderStartPosition = -.3f;
+        [SerializeField] private float _invaderStartPosition = -4;
         [SerializeField] private float _invaderMoveSpeed = .065f;
         [SerializeField] private float _invaderMoveInterval = .2f;
         private GameObject[,] _invaderGridArray;
@@ -47,6 +47,7 @@ namespace SpaceInvaders.Controllers
             _gameIsActive = false;
             _playerOrigin = new Vector3(-_playerBounds,-2f,0f);
             _invaderGridArray = new GameObject[_invaderGridRows, _invaderGridCols];
+            _invaderStartPosition *= _invaderGridOffset;
 
             float rowWidth = (_invaderGridCols - 1) * _invaderGridOffset;
             rowWidth /= 2;
