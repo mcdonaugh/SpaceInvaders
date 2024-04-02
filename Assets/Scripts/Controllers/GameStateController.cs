@@ -24,14 +24,16 @@ namespace SpaceInvaders.Controllers
         [SerializeField] private int _invaderGridRows = 5;
         [SerializeField] private int _invaderGridCols = 8;
         [SerializeField] private float _invaderGridOffset = .3f;
+        [SerializeField] private float _invaderGridSpawnDelay = .025f;
+        [SerializeField] private float _invaderStartPosition = -.3f;
         [SerializeField] private float _invaderMoveSpeed = .065f;
         [SerializeField] private float _invaderMoveInterval = .2f;
-        [SerializeField] private float _invaderSpawnDelay = .025f;
         private GameObject[,] _invaderGridArray;
         private int _playerScore;
         private int _highScore;
         private Vector3 _playerOrigin;
-        private GameObject _topCenterEnemy;
+        private Vector3 _invaderSpawnOrigin;
+        private GameObject _invaderTopCenter;
         private float _directionX = 1;
         private float _directionY = 1;
         private int _currentRowIndex;
@@ -44,6 +46,15 @@ namespace SpaceInvaders.Controllers
             _gameEndView.gameObject.SetActive(false);
             _gameIsActive = false;
             _playerOrigin = new Vector3(-_playerBounds,-2f,0f);
+            _invaderGridArray = new GameObject[_invaderGridRows, _invaderGridCols];
+
+            float rowWidth = (_invaderGridCols - 1) * _invaderGridOffset;
+            rowWidth /= 2;
+
+            float rowHeight = (_invaderGridRows - 1) * _invaderGridOffset;
+            rowHeight /= 2;
+
+            _invaderSpawnOrigin = new Vector3(-rowWidth, -rowHeight - _invaderStartPosition, 0);
             SpawnGrid();
             SpawnPlayer();
         }
@@ -57,11 +68,11 @@ namespace SpaceInvaders.Controllers
 
         private void StartGame()
         {
+            Debug.Log(_currentRowIndex);
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(true);
             _gameEndView.gameObject.SetActive(false);
             _gameIsActive = true;
-
             UpdateLivesText();
             UpdateScoreText();
             StartCoroutine(ActivateGrid());
@@ -70,12 +81,14 @@ namespace SpaceInvaders.Controllers
 
         private void EndGame()
         {
+            Debug.Log(_currentRowIndex);
             _gameIsActive = false;
+            _userInput.gameObject.SetActive(false);
             _startView.gameObject.SetActive(false);
             _gameView.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(true);
-            ResetPlayer();
             ResetGrid();
+            ResetPlayer();
             UpdateScoreText();
             CacheHighScore();
             StartCoroutine(RestartGame());
@@ -84,6 +97,8 @@ namespace SpaceInvaders.Controllers
         private IEnumerator RestartGame()
         {
             yield return new WaitForSeconds(3);
+            _gameIsActive = false;
+            _userInput.gameObject.SetActive(true);
             _startView.gameObject.SetActive(true);
             _gameView.gameObject.SetActive(false);
             _gameEndView.gameObject.SetActive(false);
@@ -127,24 +142,19 @@ namespace SpaceInvaders.Controllers
 
         private void SpawnGrid()
         {
-            _invaderGridArray = new GameObject[_invaderGridRows, _invaderGridCols];
-
-            float rowWidth = (_invaderGridCols - 1) * _invaderGridOffset;
-            rowWidth /= 2;
-
-            float rowHeight = (_invaderGridRows - 1) * _invaderGridOffset;
-            rowHeight /= 2;
 
             for (int i = 0; i < _invaderGridRows; i++)
             {
                 for (int j = 0; j < _invaderGridCols; j++)
                 {
-                    GameObject newEnemy = Instantiate(_invaderController, new Vector3(-rowWidth, -rowHeight, 0) + new Vector3(j * _invaderGridOffset, i * _invaderGridOffset, 0), Quaternion.identity);
+                    GameObject newEnemy = Instantiate(_invaderController, _invaderSpawnOrigin + new Vector3(j * _invaderGridOffset, i * _invaderGridOffset, 0), Quaternion.identity);
                     newEnemy.SetActive(false);
                     _invaderGridArray[i, j] = newEnemy;
                 }
             }
-            _topCenterEnemy = _invaderGridArray[_invaderGridRows - 1, _invaderGridCols/2];
+
+            _invaderTopCenter = _invaderGridArray[_invaderGridRows - 1, _invaderGridCols/2];
+             
         }
         
         private void SpawnPlayer()
@@ -158,7 +168,7 @@ namespace SpaceInvaders.Controllers
         {
             foreach (var enemy in _invaderGridArray)
             {
-                yield return new WaitForSeconds(_invaderSpawnDelay);
+                yield return new WaitForSeconds(_invaderGridSpawnDelay);
                 enemy.SetActive(true);
             }
 
@@ -177,13 +187,22 @@ namespace SpaceInvaders.Controllers
         }
 
         private void ResetGrid()
-        {
-            foreach (var enemy in _invaderGridArray)
-            {
-                enemy.SetActive(false);
-            }
+        { 
+            StopAllCoroutines();
+            _directionX = 1;
+            _directionY = 1;
+            _currentRowIndex = 0;
 
-            StopCoroutine(MoveTimer());
+            for (int i = 0; i < _invaderGridRows; i++)
+            {
+                for (int j = 0; j < _invaderGridCols; j++)
+                {
+                    _invaderGridArray[i, j].SetActive(false);
+                    _invaderGridArray[i, j].transform.position = _invaderSpawnOrigin + new Vector3(j * _invaderGridOffset, i * _invaderGridOffset, 0);
+                }
+            } 
+
+            Debug.Log(_invaderSpawnOrigin);   
         }
 
         private void MoveX()
@@ -201,12 +220,12 @@ namespace SpaceInvaders.Controllers
                 _currentRowIndex = 0;
             }
 
-            if (_topCenterEnemy.transform.position.x > _invaderBounds)
+            if (_invaderTopCenter.transform.position.x > _invaderBounds)
             {
                 MoveY();
                 _directionX = -1;
             }    
-            else if (_topCenterEnemy.transform.position.x < -_invaderBounds)
+            else if (_invaderTopCenter.transform.position.x < -_invaderBounds)
             {
                 MoveY();
                 _directionX = 1;
@@ -234,7 +253,6 @@ namespace SpaceInvaders.Controllers
             {
                 yield return new WaitForSeconds(_invaderMoveInterval);
                 MoveX();
-                Debug.Log("tick");
             }
         }
 

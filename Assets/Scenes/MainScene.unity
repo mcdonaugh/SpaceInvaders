@@ -266,7 +266,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 47391203}
-  - component: {fileID: 47391204}
   m_Layer: 5
   m_Name: ScoreView
   m_TagString: Untagged
@@ -299,21 +298,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000026703, y: 0.00047112}
   m_SizeDelta: {x: 672, y: 768}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &47391204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47391202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b6dbe68e7a24a6d998fa2e5daab13b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameStateController: {fileID: 1541256916}
-  _playerScore: {fileID: 901937397}
-  _highScore: {fileID: 1357703490}
 --- !u!1 &112383592
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +709,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 355311048}
-  - component: {fileID: 355311049}
   m_Layer: 5
   m_Name: StartView
   m_TagString: Untagged
@@ -755,19 +738,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000026703, y: 0.00047112}
   m_SizeDelta: {x: 672, y: 768}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &355311049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355311047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7774b058e565741eebf2d6bb11b80ca3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameStateController: {fileID: 1541256916}
 --- !u!1 &387721600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,7 +1185,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 608879629}
-  - component: {fileID: 608879630}
   m_Layer: 5
   m_Name: GameEndView
   m_TagString: Untagged
@@ -1243,18 +1212,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000026703, y: 0.00047112}
   m_SizeDelta: {x: 672, y: 768}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &608879630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 608879628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a08099e92af514d669c089015279f62d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2168,17 +2125,19 @@ MonoBehaviour:
   _playerLives: 3
   _playerLivesText: {fileID: 342062487}
   _playerScoreText: {fileID: 901937397}
-  _highScoreText: {fileID: 1357703490}
+  _playerHighScoreText: {fileID: 1357703490}
   _playerController: {fileID: 2767997061333688069, guid: b59aeab5da786464aa8e2d1283322598, type: 3}
   _playerBounds: 2.1
   _playerSpeed: 10
-  _enemyController: {fileID: 9024611346454977442, guid: 4c598882e442e46c689ee20380c74863, type: 3}
-  _enemyBounds: 0.55
-  _gridRows: 5
-  _gridCols: 11
-  _gridOffset: 0.3
-  _moveSpeed: 0.075
-  _moveInterval: 0.1
+  _invaderController: {fileID: 9024611346454977442, guid: 4c598882e442e46c689ee20380c74863, type: 3}
+  _invaderBounds: 0.5
+  _invaderGridRows: 5
+  _invaderGridCols: 11
+  _invaderGridOffset: 0.3
+  _invaderGridSpawnDelay: 0.025
+  _invaderStartPosition: -1
+  _invaderMoveSpeed: 0.065
+  _invaderMoveInterval: 0.1
 --- !u!1 &1567197897
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,7 +2215,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1611620692}
-  - component: {fileID: 1611620693}
   m_Layer: 5
   m_Name: GameView
   m_TagString: Untagged
@@ -2284,20 +2242,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000026703, y: 0.00047112}
   m_SizeDelta: {x: 672, y: 768}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1611620693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1611620691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2310c8ba8c77d4c84bf43018c9a65a09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameStateController: {fileID: 1541256916}
-  _playerLives: {fileID: 342062487}
 --- !u!1 &1703433175
 GameObject:
   m_ObjectHideFlags: 0
